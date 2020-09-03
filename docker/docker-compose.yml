@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  payments:
+    image: ${DOCKER_REGISTRY-}pulsartest
+    build:
+      context: ..
+      dockerfile: PulsarTest/Dockerfile
+    depends_on:
+      - pulsar
+    restart: on-failure
+
+  pulsar:
+    image: apachepulsar/pulsar:latest
+    hostname: pulsar
+    entrypoint: bin/pulsar standalone
+   

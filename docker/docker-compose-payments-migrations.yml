@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  payments-migration:
+    image: ${DOCKER_REGISTRY-}gig.payments.data.migrations
+    build:
+      context: ..
+      dockerfile: src/GiG.Payments.Data.Migrations/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Username=postgres;Password=postgres;Database=postgres
+    depends_on:
+      - postgres
+    restart: on-failure
+
+  postgres:
+    image: postgres:11.5-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
